@@ -1,0 +1,6 @@
+framework module Pods_YouGovTest {
+  umbrella header "Pods-YouGovTest-umbrella.h"
+
+  export *
+  module * { export * }
+}
