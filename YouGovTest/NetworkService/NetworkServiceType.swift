@@ -9,7 +9,6 @@ import Foundation
 import Combine
 
 protocol NetworkServiceType: AnyObject {
-    
     @discardableResult
     func load<T>(_ resource: Resource<T>) -> AnyPublisher<T, Error>
 }

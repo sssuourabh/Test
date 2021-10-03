@@ -18,7 +18,7 @@ class HomeSearchViewController: UIViewController {
     private var activityIndicator = UIActivityIndicatorView(style: .large)
     private let cellReuseIdentifier = "cell"
 
-    private var reposArray = [Repo]()
+    private var reposArray = [RepoViewModel]()
     private lazy var dataSource = makeDataSource()
 
     private let tableView: UITableView = {
@@ -66,20 +66,21 @@ class HomeSearchViewController: UIViewController {
         tableView.dataSource = dataSource
         
         dataclient.getRepos()
+            .receive(on: RunLoop.main)
             .sink(receiveCompletion: { [weak self] completion in
                 guard let self = self else { return }
                 switch completion {
                 case .failure: break
                 case .finished:
                     self.update(with: self.reposArray)
-                    //update tableview
                 }
             }, receiveValue: { result in
                 switch result {
                 case .failure(let error):
                     print(error.localizedDescription)
                 case .success(let repositories):
-                    self.reposArray.append(contentsOf: repositories.items)
+                    let viewModels = self.viewModels(from: repositories.items)
+                    self.reposArray.append(contentsOf: viewModels)
                 }
             })
             .store(in: &cancellables)
@@ -90,42 +91,39 @@ fileprivate extension HomeSearchViewController {
     enum Section: CaseIterable {
         case main
     }
-    func makeDataSource() -> UITableViewDiffableDataSource<Section, Repo> {
+    
+    func makeDataSource() -> UITableViewDiffableDataSource<Section, RepoViewModel> {
         let reuseIdentifier = cellReuseIdentifier
 
         return UITableViewDiffableDataSource(
             tableView: tableView,
-            cellProvider: {  tableView, indexPath, movieViewModel in
-//                cell.accessibilityIdentifier = "\(AccessibilityIdentifiers.MoviesSearch.cellId).\(indexPath.row)"
-//                cell.bind(to: movieViewModel)
+            cellProvider: {  tableView, indexPath, repoViewModel in
                 let cell = tableView.dequeueReusableCell(
                     withIdentifier: reuseIdentifier,
                     for: indexPath
                 ) as! RepoCell
-                let repo = self.reposArray[indexPath.row]
                 
-                ImageLoaderService().loadImage(from: URL(string: repo.owner.avatarUrl)!)
-                    .sink { image in
-                        DispatchQueue.main.async {
-                            cell.repoOwnerImage.image = image
-                        }
-                    }.store(in: &self.cancellables)
-                cell.nameLabel.text = repo.fullName
-                cell.descriptionLabel.text = repo.description
-                cell.forkedCountLabel.text = "Forked Count = \(repo.forks)"
-                cell.watchersLabel.text = "Watchers = \(repo.watchers)"
-                cell.openIssuesCountLabel.text = "Open issues count = \(repo.openIssues)"
+                let repoViewModel = self.reposArray[indexPath.row]
+                cell.updateCell(from: repoViewModel)
                 return cell
             }
         )
     }
     
-    func update(with repo: [Repo], animate: Bool = true) {
+    func update(with repoViewModel: [RepoViewModel], animate: Bool = true) {
         DispatchQueue.main.async {
-            var snapshot = NSDiffableDataSourceSnapshot<Section, Repo>()
+            var snapshot = NSDiffableDataSourceSnapshot<Section, RepoViewModel>()
             snapshot.appendSections(Section.allCases)
-            snapshot.appendItems(repo, toSection: .main)
+            snapshot.appendItems(repoViewModel, toSection: .main)
             self.dataSource.apply(snapshot, animatingDifferences: animate)
+        }
+    }
+    
+    private func viewModels(from repos: [Repo]) -> [RepoViewModel] {
+        return repos.map { repo in
+            return RepoViewModelBuilder.viewModel(from: repo, imageLoader: { [unowned self] repo in
+                self.dataclient.loadImage(for: repo)
+            })
         }
     }
 

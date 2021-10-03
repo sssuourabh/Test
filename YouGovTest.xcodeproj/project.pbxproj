@@ -14,6 +14,7 @@
 		6A1400EC2704446B00CDD8F8 /* RepoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1400EB2704446B00CDD8F8 /* RepoClient.swift */; };
 		6A1400EF2704C90D00CDD8F8 /* RepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1400EE2704C90D00CDD8F8 /* RepoCell.swift */; };
 		6A1400F22704D15300CDD8F8 /* ImageLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1400F12704D15300CDD8F8 /* ImageLoaderService.swift */; };
+		6A34B5E22708D50500C57A1A /* RepoViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A34B5E12708D50500C57A1A /* RepoViewModelBuilder.swift */; };
 		6A513D3826F8EDB100CB6403 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A513D3726F8EDB100CB6403 /* AppDelegate.swift */; };
 		6A513D3A26F8EDB100CB6403 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A513D3926F8EDB100CB6403 /* SceneDelegate.swift */; };
 		6A513D4226F8EDB100CB6403 /* YouGovTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6A513D4026F8EDB100CB6403 /* YouGovTest.xcdatamodeld */; };
@@ -58,6 +59,7 @@
 		6A1400EB2704446B00CDD8F8 /* RepoClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoClient.swift; sourceTree = "<group>"; };
 		6A1400EE2704C90D00CDD8F8 /* RepoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoCell.swift; sourceTree = "<group>"; };
 		6A1400F12704D15300CDD8F8 /* ImageLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderService.swift; sourceTree = "<group>"; };
+		6A34B5E12708D50500C57A1A /* RepoViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepoViewModelBuilder.swift; sourceTree = "<group>"; };
 		6A513D3426F8EDB100CB6403 /* YouGovTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouGovTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A513D3726F8EDB100CB6403 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6A513D3926F8EDB100CB6403 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 		6A1400E427043F9B00CDD8F8 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
+				6A34B5E02708D4C400C57A1A /* RepoViewModelBuilder */,
 				6A1400E527043FB600CDD8F8 /* Resource+Repo.swift */,
 			);
 			path = UseCases;
@@ -168,6 +171,14 @@
 				6A1400F12704D15300CDD8F8 /* ImageLoaderService.swift */,
 			);
 			path = ImageDownloading;
+			sourceTree = "<group>";
+		};
+		6A34B5E02708D4C400C57A1A /* RepoViewModelBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				6A34B5E12708D50500C57A1A /* RepoViewModelBuilder.swift */,
+			);
+			path = RepoViewModelBuilder;
 			sourceTree = "<group>";
 		};
 		6A513D2B26F8EDB100CB6403 = {
@@ -522,6 +533,7 @@
 				6A513D3A26F8EDB100CB6403 /* SceneDelegate.swift in Sources */,
 				6ACBDEF526FB37820086972D /* NetworkServiceType.swift in Sources */,
 				6A1400E327043C9900CDD8F8 /* APIConstants.swift in Sources */,
+				6A34B5E22708D50500C57A1A /* RepoViewModelBuilder.swift in Sources */,
 				6ACBDEF726FB37920086972D /* NetworkService.swift in Sources */,
 				6A513D6D26F8EF4300CB6403 /* HomeSearchViewController.swift in Sources */,
 				6ACBDEF926FB37A40086972D /* Resource.swift in Sources */,

@@ -7,6 +7,7 @@
 
 import Foundation
 import Cartography
+import Combine
 
 class RepoCell: UITableViewCell {
 
@@ -16,6 +17,7 @@ class RepoCell: UITableViewCell {
     let forkedCountLabel = UILabel()
     let watchersLabel = UILabel()
     let openIssuesCountLabel = UILabel()
+    private var anyCancellable: AnyCancellable?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -62,5 +64,25 @@ class RepoCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func updateCell(from viewModel: RepoViewModel) {
+        nameLabel.text = viewModel.name
+        descriptionLabel.text = viewModel.description
+        forkedCountLabel.text = "Forked Count = \(viewModel.forks)"
+        watchersLabel.text = "Watchers = \(viewModel.watchers)"
+        openIssuesCountLabel.text = "Open issues count = \(viewModel.openIssues)"
+        anyCancellable = viewModel.avatarImage.sink { [unowned self] image in
+            DispatchQueue.main.async {
+                repoOwnerImage.image = image
+            }
+        }
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        repoOwnerImage.image = nil
+        anyCancellable?.cancel()
+    }
+
 }
 
